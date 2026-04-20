@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test de Preparación Mercado Público — Zinergia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #0D1F3C;
+  --navy-mid: #16305A;
+  --gold: #C8960C;
+  --gold-light: #F5C842;
+  --white: #FFFFFF;
+  --cream: #F9F6F0;
+  --green-bg: #E8F5EC;
+  --green-txt: #1A5E2A;
+  --amber-bg: #FEF9E7;
+  --amber-txt: #7A4A00;
+  --red-bg: #FCEBEB;
+  --red-txt: #A32D2D;
+  --ink: #1A2332;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 4rem;
+}
+
+.shell {
+  width: 100%;
+  max-width: 620px;
+}
+
+/* HEADER */
+.header {
+  background: var(--navy);
+  border-radius: 20px 20px 0 0;
+  padding: 2.5rem 2rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::before, .header::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.header::before {
+  width: 300px; height: 300px;
+  top: -100px; right: -80px;
+  border: 1px solid rgba(200,150,12,0.15);
+}
+.header::after {
+  width: 200px; height: 200px;
+  top: -60px; right: -40px;
+  border: 1px solid rgba(200,150,12,0.1);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 1.75rem;
+}
+
+.brand-dot {
+  width: 8px; height: 8px;
+  background: var(--gold);
+  border-radius: 50%;
+}
+
+.brand-name {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+.header-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  border: 1px solid rgba(200,150,12,0.35);
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 1rem;
+}
+
+.header h1 {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+.header p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 1.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.progress-wrap {
+  background: rgba(255,255,255,0.1);
+  height: 3px;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  border-radius: 2px;
+  transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 1rem;
+}
+
+.dots {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: background 0.3s;
+}
+.dot.done { background: var(--gold); }
+.dot.current { background: #fff; }
+
+/* BODY CARD */
+.body-card {
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.07);
+  border-top: none;
+  border-radius: 0 0 20px 20px;
+  padding: 2.25rem 2rem;
+  min-height: 280px;
+  transition: min-height 0.3s;
+}
+
+/* QUESTION */
+.question-block {
+  display: none;
+}
+.question-block.active {
+  display: block;
+  animation: slideUp 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.q-kicker {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.q-text {
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--navy);
+  margin-bottom: 2rem;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 1.75rem;
+}
+
+.opt-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border: 1.5px solid rgba(0,0,0,0.09);
+  border-radius: 12px;
+  background: #FAFAFA;
+  cursor: pointer;
+  transition: all 0.18s;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 400;
+  color: #2C2C2A;
+  text-align: left;
+  width: 100%;
+}
+
+.opt-btn:hover {
+  border-color: var(--navy-mid);
+  background: #F0F4FA;
+}
+
+.opt-btn.si {
+  border-color: var(--green-txt);
+  background: var(--green-bg);
+  color: var(--green-txt);
+  font-weight: 500;
+}
+
+.opt-btn.no {
+  border-color: var(--red-txt);
+  background: var(--red-bg);
+  color: var(--red-txt);
+  font-weight: 500;
+}
+
+.opt-icon {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 0.15s;
+}
+
+.opt-btn.si .opt-icon { background: var(--green-txt); color: #fff; border-color: var(--green-txt); }
+.opt-btn.no .opt-icon { background: var(--red-txt); color: #fff; border-color: var(--red-txt); }
+
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-back {
+  background: transparent;
+  color: rgba(0,0,0,0.35);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-family: var(--sans);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-back:hover { color: var(--navy); border-color: var(--navy); }
+
+.btn-next {
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 24px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.18s, transform 0.12s;
+}
+
+.btn-next:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+.btn-next:not(:disabled):hover { opacity: 0.85; }
+.btn-next:not(:disabled):active { transform: scale(0.97); }
+
+/* RESULT */
+.result-block { display: none; }
+.result-block.active {
+  display: block;
+  animation: slideUp 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.semaforo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  margin-bottom: 1.5rem;
+}
+
+.semaforo.verde { background: var(--green-bg); border: 1.5px solid var(--green-txt); }
+.semaforo.amarillo { background: var(--amber-bg); border: 1.5px solid var(--gold); }
+.semaforo.rojo { background: var(--red-bg); border: 1.5px solid var(--red-txt); }
+
+.sem-circle {
+  width: 54px; height: 54px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  color: #fff;
+  font-weight: 700;
+}
+.verde .sem-circle { background: var(--green-txt); }
+.amarillo .sem-circle { background: var(--gold); }
+.rojo .sem-circle { background: var(--red-txt); }
+
+.sem-text h2 {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.verde .sem-text h2 { color: var(--green-txt); }
+.amarillo .sem-text h2 { color: var(--amber-txt); }
+.rojo .sem-text h2 { color: var(--red-txt); }
+
+.sem-text p {
+  font-size: 12px;
+}
+.verde .sem-text p { color: #2A7A40; }
+.amarillo .sem-text p { color: var(--amber-txt); }
+.rojo .sem-text p { color: var(--red-txt); }
+
+.score-bar-row { margin: 1.25rem 0; }
+
+.score-bar-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: rgba(0,0,0,0.4);
+  margin-bottom: 6px;
+}
+
+.score-track {
+  background: rgba(0,0,0,0.07);
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.score-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fill-verde { background: var(--green-txt); }
+.fill-amarillo { background: var(--gold); }
+.fill-rojo { background: var(--red-txt); }
+
+.result-text {
+  font-size: 14px;
+  line-height: 1.75;
+  color: #3A3A38;
+  margin-bottom: 1.75rem;
+}
+
+.result-text strong { font-weight: 500; color: var(--navy); }
+
+.cta-card {
+  background: var(--navy);
+  border-radius: 14px;
+  padding: 1.75rem;
+  text-align: center;
+}
+
+.cta-card p {
+  font-size: 13px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+}
+
+.cta-primary {
+  display: inline-block;
+  background: var(--gold);
+  color: var(--navy);
+  text-decoration: none;
+  border: none;
+  border-radius: 8px;
+  padding: 13px 28px;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.12s;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+.cta-primary:hover { background: var(--gold-light); }
+.cta-primary:active { transform: scale(0.97); }
+
+.cta-secondary {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  line-height: 1.5;
+}
+
+.reiniciar {
+  display: block;
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 12px;
+  color: rgba(0,0,0,0.3);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.15s;
+}
+.reiniciar:hover { color: var(--navy); }
+
+/* FOOTER */
+.footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 11px;
+  color: rgba(0,0,0,0.3);
+}
+.footer a { color: rgba(0,0,0,0.35); }
+
+@media (max-width: 480px) {
+  body { padding: 1rem 0.75rem 3rem; }
+  .header { padding: 2rem 1.5rem 1.75rem; }
+  .body-card { padding: 1.75rem 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <div class="header">
+    <div class="brand">
+      <div class="brand-dot"></div>
+      <div class="brand-name">Zinergia · Sistema Partners</div>
+    </div>
+    <div class="header-tag">Diagnóstico gratuito · 3 minutos</div>
+    <h1>¿Está tu pyme lista<br>para Mercado Público?</h1>
+    <p>10 preguntas basadas en diagnósticos reales con pymes chilenas.</p>
+    <div class="progress-wrap">
+      <div class="progress-bar" id="pbar" style="width:10%"></div>
+    </div>
+    <div class="progress-meta">
+      <span id="p-label">Pregunta 1 de 10</span>
+      <span id="p-pct">10%</span>
+    </div>
+    <div class="dots" id="dots"></div>
+  </div>
+
+  <div class="body-card">
+    <div id="qwrap"></div>
+    <div class="result-block" id="result">
+      <div id="semaforo-el"></div>
+      <div class="score-bar-row">
+        <div class="score-bar-labels">
+          <span>Nivel de riesgo operativo</span>
+          <span id="score-num"></span>
+        </div>
+        <div class="score-track">
+          <div class="score-fill" id="score-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="result-text" id="rtext"></div>
+      <div class="cta-card" id="cta-card"></div>
+      <span class="reiniciar" id="btn-reset">Volver a empezar</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    Zinergia · División PYMES de Applicatta Tecnología e Innovación<br>
+    <a href="mailto:contacto@zinergia.cl">contacto@zinergia.cl</a> · +56 9 2216 6149
+  </div>
+</div>
+
+<script>
+const Qs = [
+  "¿Tienes RUT de empresa activo y ficha actualizada en ChileCompra?",
+  "¿Sabes con precisión cuánto te cuesta producir o entregar lo que vendes?",
+  "¿Tienes contratos, facturas y documentación de tu empresa ordenada y accesible?",
+  "¿Puedes entregar un pedido o proyecto grande sin que todo dependa de ti?",
+  "¿Tu empresa tiene procesos documentados, o todo el conocimiento vive en tu cabeza?",
+  "¿Tienes capital de trabajo para financiar un proyecto antes de recibir el pago del Estado?",
+  "¿Has cotizado o entregado algo a una institución pública antes?",
+  "¿Puedes emitir facturas electrónicas y estás al día con el SII sin dificultades?",
+  "¿Tu equipo podría operar una semana completa sin que tú estés presente?",
+  "¿Sabes cuánto tiempo real demora entregar tu servicio o producto a escala mayor?"
+];
+
+const ans = new Array(10).fill(null);
+let cur = 0;
+
+const qwrap = document.getElementById('qwrap');
+const result = document.getElementById('result');
+const pbar = document.getElementById('pbar');
+const pLabel = document.getElementById('p-label');
+const pPct = document.getElementById('p-pct');
+const dotsEl = document.getElementById('dots');
+
+function renderDots() {
+  dotsEl.innerHTML = Qs.map((_, i) =>
+    `<div class="dot${i < cur ? ' done' : i === cur ? ' current' : ''}"></div>`
+  ).join('');
+}
+
+function renderQuestions() {
+  qwrap.innerHTML = Qs.map((q, i) => `
+    <div class="question-block${i === 0 ? ' active' : ''}" id="qb${i}">
+      <div class="q-kicker">Pregunta ${i+1} de ${Qs.length}</div>
+      <div class="q-text">${q}</div>
+      <div class="options">
+        <button class="opt-btn" id="si${i}" onclick="pick(${i},'si')">
+          <div class="opt-icon">S</div> Sí
+        </button>
+        <button class="opt-btn" id="no${i}" onclick="pick(${i},'no')">
+          <div class="opt-icon">N</div> No
+        </button>
+      </div>
+      <div class="nav-row">
+        ${i > 0 ? `<button class="btn-back" onclick="prev(${i})">← Anterior</button>` : ''}
+        <button class="btn-next" id="nx${i}" onclick="next(${i})" disabled>
+          ${i < Qs.length - 1 ? 'Siguiente →' : 'Ver mi resultado →'}
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+function pick(i, v) {
+  ans[i] = v;
+  ['si','no'].forEach(k => {
+    const b = document.getElementById(k+i);
+    b.className = 'opt-btn' + (k === v ? ` ${k}` : '');
+  });
+  document.getElementById('nx'+i).disabled = false;
+}
+
+function next(i) {
+  document.getElementById('qb'+i).className = 'question-block';
+  if (i < Qs.length - 1) {
+    cur = i + 1;
+    document.getElementById('qb'+cur).className = 'question-block active';
+    if (ans[cur] !== null) pick(cur, ans[cur]);
+    updateProg();
+  } else {
+    showResult();
+  }
+}
+
+function prev(i) {
+  document.getElementById('qb'+i).className = 'question-block';
+  cur = i - 1;
+  document.getElementById('qb'+cur).className = 'question-block active';
+  updateProg();
+}
+
+function updateProg() {
+  const pct = Math.round(((cur+1)/Qs.length)*100);
+  pbar.style.width = pct+'%';
+  pLabel.textContent = 'Pregunta '+(cur+1)+' de '+Qs.length;
+  pPct.textContent = pct+'%';
+  renderDots();
+}
+
+function showResult() {
+  qwrap.style.display = 'none';
+  result.className = 'result-block active';
+  pbar.style.width = '100%';
+  pLabel.textContent = 'Tu resultado';
+  pPct.textContent = '100%';
+  renderDots();
+
+  const risk = ans.filter(r => r === 'no').length;
+  const pct = Math.round((risk/10)*100);
+  document.getElementById('score-num').textContent = risk+' alerta'+(risk!==1?'s':'')+' de 10';
+  setTimeout(() => { document.getElementById('score-fill').style.width = pct+'%'; }, 80);
+
+  let color, symbol, h2, sub, body, ctaMsg, ctaLink, ctaBtn, fillClass;
+
+  if (risk <= 2) {
+    color='verde'; symbol='✓'; fillClass='fill-verde';
+    h2='Verde — Estás en buena posición';
+    sub=risk===0?'Sin alertas críticas detectadas':`${risk} alerta${risk>1?'s':''} menor${risk>1?'es':''} detectada${risk>1?'s':''}`;
+    body=`<strong>Tu empresa tiene bases sólidas para explorar Mercado Público.</strong> Con ${risk===0?'ninguna alerta crítica':'pocas alertas menores'}, los riesgos operativos son manejables. El siguiente paso es revisar tu estrategia de licitación y asegurarte de que la operación puede escalar sin depender de ti para todo.<br><br>Un diagnóstico de 90 minutos puede convertir esa posición en un plan concreto con los pasos exactos para tu primera postulación.`;
+    ctaMsg='Tu resultado muestra que tienes base real. Esta semana tengo 10 cupos de diagnóstico a precio de validación para empresas listas para avanzar.';
+    ctaBtn='Agenda tu diagnóstico — cupos limitados';
+    ctaLink='mailto:contacto@zinergia.cl?subject=Resultado Verde - Quiero agendar diagnóstico';
+  } else if (risk <= 5) {
+    color='amarillo'; symbol='!'; fillClass='fill-amarillo';
+    h2='Amarillo — Hay trabajo previo importante';
+    sub=`${risk} alertas detectadas`;
+    body=`<strong>Tu empresa tiene potencial, pero hay ${risk} áreas críticas que ordenar antes de licitar.</strong> Entrar a Mercado Público en este estado puede generar más problemas que oportunidades: caja comprometida, retrasos de entrega y reputación afectada ante organismos públicos.<br><br>El diagnóstico pagado mapea exactamente cuáles son tus fricciones prioritarias y te da una ruta de 30 a 60 días para ordenarlas antes de postular por primera vez.`;
+    ctaMsg='Empresas en amarillo son las que más se benefician del diagnóstico. Esta semana tengo 10 cupos a precio de validación — el objetivo es darte claridad, no venderte algo.';
+    ctaBtn='Quiero mi diagnóstico — precio de validación';
+    ctaLink='mailto:contacto@zinergia.cl?subject=Resultado Amarillo - Quiero agendar diagnóstico';
+  } else {
+    color='rojo'; symbol='✕'; fillClass='fill-rojo';
+    h2='Rojo — No es el momento de licitar';
+    sub=`${risk} alertas críticas detectadas`;
+    body=`<strong>Con ${risk} alertas críticas, licitar hoy es un riesgo real para tu empresa.</strong> No es un juicio sobre tu negocio — es una señal de que el sistema operativo necesita orden antes de escalar. Muchas pymes en esta situación ganan licitaciones y después no pueden entregarlas, lo que genera multas y bloqueo en ChileCompra.<br><br>El diagnóstico pagado es exactamente el primer paso correcto: identificar qué resolver primero, en qué orden y con qué criterio. Antes de invertir en licitar, invierte en entender qué frena tu operación hoy.`;
+    ctaMsg='Un resultado rojo no es un fracaso — es información útil. Esta semana tengo 10 cupos de diagnóstico a precio de validación para empresas que quieren ordenarse antes de dar el salto.';
+    ctaBtn='Necesito el diagnóstico — agendo ahora';
+    ctaLink='mailto:contacto@zinergia.cl?subject=Resultado Rojo - Quiero agendar diagnóstico';
+  }
+
+  document.getElementById('score-fill').className = 'score-fill '+fillClass;
+
+  document.getElementById('semaforo-el').innerHTML = `
+    <div class="semaforo ${color}">
+      <div class="sem-circle">${symbol}</div>
+      <div class="sem-text">
+        <h2>${h2}</h2>
+        <p>${sub}</p>
+      </div>
+    </div>`;
+
+  document.getElementById('rtext').innerHTML = body;
+
+  document.getElementById('cta-card').innerHTML = `
+    <p>${ctaMsg}</p>
+    <a href="${ctaLink}" class="cta-primary">${ctaBtn}</a>
+    <div class="cta-secondary">Sin costo. Sin compromiso. Solo una llamada de 30 minutos para ver si tiene sentido.</div>`;
+
+  document.getElementById('btn-reset').onclick = reset;
+}
+
+function reset() {
+  ans.fill(null);
+  cur = 0;
+  qwrap.style.display = '';
+  result.className = 'result-block';
+  renderQuestions();
+  updateProg();
+}
+
+renderQuestions();
+renderDots();
+</script>
+</body>
+</html>
